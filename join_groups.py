@@ -81,7 +81,7 @@ async def join(client, link):
 
 # === MAIN ===
 # Единственная строка которую нужно заполнить вручную один раз:
-SPREADSHEET_ID = 'ВСТАВЬ_ID_ТАБЛИЦЫ_СЮДА'
+SPREADSHEET_ID = '187fYAAQ1vHuaMTaUY6Pi_ucUXM4NXbH-dE_BsU6Rzt8'
 
 async def main():
     config, ss = load_config()
