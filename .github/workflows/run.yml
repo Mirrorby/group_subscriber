@@ -24,7 +24,17 @@ jobs:
       - name: Restore credentials.json from secret
         run: echo '${{ secrets.CREDENTIALS_JSON }}' > credentials.json
 
+      - name: Debug secrets
+        run: |
+          if [ -z "${{ secrets.TG_SESSION }}" ]; then
+            echo "❌ TG_SESSION is EMPTY or NOT SET"
+          else
+            echo "✅ TG_SESSION is set (length: ${#TG_SESSION})"
+          fi
+        env:
+          TG_SESSION: ${{ secrets.TG_SESSION }}
+
       - name: Run script
         env:
-          SESSION_STRING: ${{ secrets.TG_SESSION }}
+          TG_SESSION: ${{ secrets.TG_SESSION }}
         run: python join_groups.py
