@@ -8,6 +8,7 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 60  # максимум 1 час, потом job убивается
 
     steps:
       - name: Checkout repo
