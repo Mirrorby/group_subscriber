@@ -22,7 +22,9 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Restore credentials.json from secret
-        run: echo '${{ secrets.CREDENTIALS_JSON }}' > credentials.json
+        run: echo "$CREDENTIALS_JSON" > credentials.json
+        env:
+          CREDENTIALS_JSON: ${{ secrets.CREDENTIALS_JSON }}
 
       - name: Debug secrets
         run: |
