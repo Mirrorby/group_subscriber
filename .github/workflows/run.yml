@@ -22,7 +22,15 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Restore credentials.json from secret
-        run: echo "$CREDENTIALS_JSON" | base64 -d > credentials.json
+        run: |
+          if [ -z "$CREDENTIALS_JSON" ]; then
+            echo "❌ CREDENTIALS_JSON secret is EMPTY"
+            exit 1
+          fi
+          echo "✅ CREDENTIALS_JSON length: ${#CREDENTIALS_JSON}"
+          echo "$CREDENTIALS_JSON" | base64 -d > credentials.json
+          echo "📄 credentials.json size: $(wc -c < credentials.json) bytes"
+          head -c 20 credentials.json
         env:
           CREDENTIALS_JSON: ${{ secrets.CREDENTIALS_JSON }}
 
