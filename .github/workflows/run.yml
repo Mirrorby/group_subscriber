@@ -22,7 +22,7 @@ jobs:
       - name: Restore secrets
         run: |
           echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
-          echo '${{ secrets.TELEGRAM_SESSION }}' > session.session
+          echo '${{ secrets.TELEGRAM_SESSION }}' | base64 -d > session.session
 
       - name: Run script
         run: python join_groups.py
