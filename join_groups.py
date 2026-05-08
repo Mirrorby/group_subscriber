@@ -57,6 +57,8 @@ def update_status(sheet, row_index, status):
 
 # === TELEGRAM ===
 
+MAX_FLOOD_WAIT = 300  # если Telegram просит ждать дольше — останавливаемся
+
 async def join(client, link):
     try:
         private = re.search(r't\.me/\+([a-zA-Z0-9_-]+)', link) or \
@@ -70,8 +72,10 @@ async def join(client, link):
         return 'already'
     except FloodWaitError as e:
         wait = e.seconds + 10
+        if wait > MAX_FLOOD_WAIT:
+            print(f'  [!] FloodWait {wait}s > {MAX_FLOOD_WAIT}s — останавливаемся.')
+            return f'flood_stop:{wait}'
         print(f'  [!] FloodWait — жду {wait}s...')
-        # Печатаем прогресс каждые 30 секунд чтобы runner не завис молча
         waited = 0
         while waited < wait:
             chunk = min(30, wait - waited)
@@ -113,6 +117,11 @@ async def main():
                 status = '✅ Вступил'
             elif result == 'already':
                 status = '⏭ Уже участник'
+            elif result.startswith('flood_stop:'):
+                wait = result.split(':')[1]
+                print(f'\n⛔ Остановлено по FloodWait ({wait}s). Запусти снова через ~{int(wait)//60} мин.')
+                update_status(groups_sheet, row_i, f'⏳ FloodWait {wait}s')
+                break
             else:
                 status = f'❌ {result}'
 
