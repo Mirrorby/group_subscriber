@@ -71,7 +71,13 @@ async def join(client, link):
     except FloodWaitError as e:
         wait = e.seconds + 10
         print(f'  [!] FloodWait — жду {wait}s...')
-        await asyncio.sleep(wait)
+        # Печатаем прогресс каждые 30 секунд чтобы runner не завис молча
+        waited = 0
+        while waited < wait:
+            chunk = min(30, wait - waited)
+            await asyncio.sleep(chunk)
+            waited += chunk
+            print(f'  [!] FloodWait — прошло {waited}s из {wait}s...')
         return await join(client, link)
     except Exception as e:
         return f'error: {e}'
