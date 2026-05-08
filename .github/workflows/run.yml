@@ -48,4 +48,4 @@ jobs:
       - name: Run script
         env:
           TG_SESSION: ${{ secrets.TG_SESSION }}
-        run: python join_groups.py
+        run: python -u join_groups.py
