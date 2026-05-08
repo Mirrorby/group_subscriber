@@ -1,17 +1,19 @@
-name: Join Groups
+name: Join Telegram Groups
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:       # ручной запуск через кнопку Actions
+  schedule:
+    - cron: '0 9 * * *'   # автозапуск каждый день в 09:00 UTC (при желании)
 
 jobs:
   run:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -19,10 +21,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Restore secrets
-        run: |
-          echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
-          echo '${{ secrets.TELEGRAM_SESSION }}' | base64 -d > session.session
+      - name: Restore credentials.json from secret
+        run: echo '${{ secrets.CREDENTIALS_JSON }}' > credentials.json
 
       - name: Run script
+        env:
+          SESSION_STRING: ${{ secrets.SESSION_STRING }}
         run: python join_groups.py
