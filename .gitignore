@@ -1,0 +1,3 @@
+*.session
+credentials.json
+__pycache__/
