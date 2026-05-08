@@ -1,9 +1,9 @@
 name: Join Telegram Groups
 
 on:
-  workflow_dispatch:       # ручной запуск через кнопку Actions
+  workflow_dispatch:
   schedule:
-    - cron: '0 9 * * *'   # автозапуск каждый день в 09:00 UTC (при желании)
+    - cron: '0 */2 * * *'  # каждые 2 часа — подбирает незавершённое
 
 jobs:
   run:
