@@ -88,7 +88,7 @@ async def main():
 
     api_id   = int(config['api_id'])
     api_hash = config['api_hash']
-    phone    = config['phone']
+    phone    = re.sub(r'[^\d+]', '', config['phone'])
     delay    = int(config.get('delay_sec', 20))
     skip     = config.get('skip_already_joined', 'TRUE').upper() == 'TRUE'
 
