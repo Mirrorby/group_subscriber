@@ -81,10 +81,10 @@ async def join(client, link):
 
 async def main():
     # Читаем SESSION_STRING из переменной окружения (GitHub Secret)
-    session_string = os.environ.get('SESSION_STRING', '')
+    session_string = os.environ.get('TG_SESSION', '')
     if not session_string:
         raise RuntimeError(
-            'Переменная SESSION_STRING не задана. '
+            'Переменная TG_SESSION не задана. '
             'Сгенерируй её локально и добавь в GitHub Secrets.'
         )
 
